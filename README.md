@@ -99,7 +99,7 @@ MergeBlocks( final_file_name), hace merge de todos los bloques que hay en archiv
         return res
 ~~~
 
-BSBI_Invert transforma una lista ordenada de pares ordenados en un îndice invertido.
+BSBI_Invert transforma una lista ordenada de pares ordenados (word, docId) en un îndice invertido.
 
 
 ### Consultas
