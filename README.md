@@ -87,7 +87,7 @@ ParseNextBlock se encarga del preprocesamiento de los tweets (Tokenizacion, filt
 
 BSBI_invert(block, file_name), tiene como parametros block (array de tuplas) y transforma una lista ordenada de pares ordenados (word, docId) en un îndice invertido.
 
-WriteBlockToDisk,block, block_file_name), escribe el array block a un archivo con nombre block_file_name
+WriteBlockToDisk,block, block_file_name), escribe el array block a un archivo con nombre block_file_name.
 
 MergeBlocks( final_file_name), hace merge de todos los bloques que hay en archivos, cuyos nombres estan en el array blocks. Los archivos ya estan ordenados alfabeticamente, por ello solo les hace merge y lo escribe en final_file_name.
 
@@ -107,19 +107,20 @@ La funcion MergeBlocks llama multiples veces la funcion MergeTwoBlocks la cual, 
         return self.retrieve_results([ id for id, score in results ])
 ~~~
 ## Implementacion Frontend
+La aplicacion se hizo con flask y react
 
-![](images/ph1.png){:width: 500px;}
+![](images/ph1.png | width=100)
 
-![](images/ph2.png){:width: 500px;}
+![](images/ph2.png | width=100)
 
-![](images/ph3.png){:width: 500px;}
+![](images/ph3.png | width=100)
 
-![](images/ph4.jpeg){:width: 500px;}
+![](images/ph4.jpeg | width=100)
 
 ### Make the project
 terminal 1
 ~~~
-BD2-P2/src/fronted$ yarn start
+BD2-P2/fronted$ yarn start
 ~~~
 terminal 2
 ~~~
