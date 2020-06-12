@@ -111,11 +111,11 @@ La aplicacion se hizo con flask y react
 
 ![100px](images/ph1.png)
 
-![0.5](images/ph2.png)
+![100px](images/ph2.png)
 
-![0-5](images/ph3.png)
+![100px](images/ph3.png)
 
-![0.5](images/ph4.jpeg)
+![100ṕx](images/ph4.jpeg)
 
 ### Make the project
 terminal 1
