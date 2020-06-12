@@ -1,6 +1,6 @@
-# Proyecto2
+# Base de datos II: Proyecto2
 ## Integrantes
-- Reynaldo Rojas \\
+- Reynaldo Rojas \
 - Indhira Ramirez
 
 ## Proyecto
@@ -32,9 +32,9 @@ def ParseNextBlock(self, tweets):
         return sorted(res)
 ~~~
 
-Tenemos el diccionario tf_idf donde esyan los ids de los tweets y otro diccionario que contiene las palabras de estos y cuantas veces se repite {id: {word: count}}. \\
+Tenemos el diccionario tf_idf donde esyan los ids de los tweets y otro diccionario que contiene las palabras de estos y cuantas veces se repite {id: {word: count}}. \ \
 
-ParseNextBLock resive como parametro un json donde se encuentran los tweets, tambien se encarga de la tokenizacion, filtrar las stopwords y el steamming. \\
+ParseNextBLock resive como parametro un json donde se encuentran los tweets, tambien se encarga de la tokenizacion, filtrar las stopwords y el steamming. \ \
 
 Se recorre todos los tweets del json y las palabras del texto de estos. Se separa todas las palabras y si no es un link(http), se le quita la puntuacion, se le pone en lowercase y se reduce la palabra(steamming). Despues de esto, verificamos si esta en las stopwords y si no, se agrega como tupla a un array y se agrega al diccionario. Antes de agregarlo al diccionario se verifica si ya pertenece o no a este para poder llevar el conteo de la palabra. 
 
