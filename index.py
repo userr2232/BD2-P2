@@ -92,7 +92,83 @@ class Inverted:
             blocks = next_blocks
         shutil.move(blocks[0], file_name)
 
-    
+    def MergeTwoBlocks(self, b1, b2, file_name):
+        tb1 = open(b1, "r")
+        tb2 = open(b2, "r")
+        with open(file_name, 'w+') as final_file:
+            list_b1 = []
+            list_b2 = []
+            n = 1000
+            while True:
+                while len(list_b1) < n:
+                    line = tb1.readline()
+                    if not line:
+                        break
+                    list_b1.append(self.to_tuple(line))
+                while len(list_b2) < n:
+                    line = tb2.readline()
+                    if not line:
+                        break
+                    list_b2.append(self.to_tuple(line))
+
+                if not list_b1 or not list_b2:
+                    break
+                while len(list_b1) and len(list_b2):
+                    if list_b1[0][0] < list_b2[0][0]:
+                        self.idf[str(list_b1[0][0])] = log(self.N / len(list_b1[0][1]), 10)
+                        s = str(list_b1[0][0]) + " " + self.array_to_string(list_b1[0][1]) + "\n"
+                        list_b1.pop(0)
+                        final_file.write(s)
+                    else:
+                        if list_b1[0][0] > list_b2[0][0]:
+                            self.idf[str(list_b2[0][0])] = log(self.N / len(list_b2[0][1]), 10)
+                            s = str(list_b2[0][0]) + ' ' + self.array_to_string(list_b2[0][1]) + '\n'
+                            list_b2.pop(0)
+                            final_file.write(s)
+                        else:
+                            arr = list_b1[0][1]+list_b2[0][1]
+                            self.idf[str(list_b1[0][0])] = log(self.N / len(arr), 10)
+                            s = str(list_b1[0][0]) + ' ' + self.array_to_string(arr) + '\n'
+                            final_file.write(s)
+                            list_b1.pop(0)
+                            list_b2.pop(0)
+            # si despues de cargar todos los archivos una todavia tiene elementos
+
+            while True:
+                while len(list_b1) and len(list_b1) < n:
+                    line = tb1.readline()
+                    if not line:
+                        break
+                    list_b1.append(self.to_tuple(line))
+                if not list_b1:
+                    break
+                while len(list_b1):
+                    self.idf[str(list_b1[0][0])] = log(self.N / len(list_b1[0][1]), 10)
+                    s = str(list_b1[0][0]) + " " + self.array_to_string(list_b1[0][1]) + "\n"
+                    list_b1.pop(0)
+                    final_file.write(s)
+            
+            while True:
+                while len(list_b2) and len(list_b2) < n:
+                    line = tb2.readline()
+                    if not line:
+                        break
+                    list_b2.append(self.to_tuple(line))
+                if not list_b2:
+                    break
+                while len(list_b2):
+                    self.idf[str(list_b2[0][0])] = log(self.N / len(list_b2[0][1]), 10)
+                    s = str(list_b2[0][0]) + " " + self.array_to_string(list_b2[0][1]) + "\n"
+                    list_b2.pop(0)
+                    final_file.write(s)
+
+    def to_tuple(self, line):
+        word, docs = line.split()
+        s = docs.split(',')
+        return (word, s)
+
+    def array_to_string(self, arr):
+        return ','.join(x for x in arr)
 
     def compute_tf_idf(self):
         for doc, word_dict in self.tf_idf.items():
