@@ -110,10 +110,10 @@ MergeBlocks( final_file_name), hace merge de todos los bloques que hay en archiv
 ### Consultas
 
 ## Implementacion Frontend
-![](images/ph1.png)
+![](images/ph1.png){ width: 500px; }
 
-![](images/ph2.png)
+![](images/ph2.png){ width: 500px; }
 
-![](images/ph3.png)
+![](images/ph3.png){ width: 500px; }
 
-![](images/ph4.jpeg)
+![](images/ph4.jpeg){ width: 500px; }
