@@ -6,7 +6,7 @@
 ## Proyecto
 
 ## Implementacion Backend
-### Preprocesamiento: Tokenization, filtrar stopwords y reduccion de palabras(steamming)
+### Preprocesamiento: Tokenization, filtrar stopwords y reduccion de palabras(stemming)
 ~~~
 def ParseNextBlock(self, tweets):
         res = []
