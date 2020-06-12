@@ -7,6 +7,7 @@
 
 ## Implementacion Backend
 ### Preprocesamiento: Tokenization, filtrar stopwords y reduccion de palabras(steamming)
+
 ~~~
 def ParseNextBlock(self, tweets):
         res = []
@@ -39,7 +40,7 @@ Tenemos el diccionario tf_idf donde esyan los ids de los tweets y otro diccionar
 
 ParseNextBLock resive como parametro un json donde se encuentran los tweets, tambien se encarga de la tokenizacion, filtrar las stopwords y el steamming.
 
-Se recorre todos los tweets del json y las palabras del texto de estos. Se separa todas las palabras y si no es un link(http), se le quita la puntuacion, se le pone en lowercase y se reduce la palabra(steamming). Despues de esto, verificamos si esta en las stopwords y si no, se heaagrega como tupla a un array y se agrega al diccionario. Antes de agregarlo al diccionario se verifica si ya pertenece o no a este para poder llevar el conteo de la palabra. 
+Se recorre todos los tweets del json y las palabras del texto de estos. Se separa todas las palabras y si no es un link(http), se le quita la puntuacion, se le pone en lowercase y se reduce la palabra(steamming). Despues de esto, verificamos si esta en las stopwords y si no, se agrega como tupla a un array y se agrega al diccionario. Antes de agregarlo al diccionario se verifica si ya pertenece o no a este para poder llevar el conteo de la palabra.
 
 ### Construccion del indice
 #### Estructurar el indice y obtener pesos tf-idf
@@ -51,9 +52,6 @@ def compute_tf_idf(self):
             self.tf_idf[doc][word] = tf * self.idf[word]
     self.normalize()
 ~~~
-self.idf es un diccionario que tiene el log10(N/n_t), siendo N el numero total de palabras y n_t, el numero de tweets en las que aparecio.
-\
-Con compute_tf_idf recorremos el dicionario tf_idf ({id_tweet : {word:tf}}) y multiplicamos cuantas veces aparecio 
 ~~~
 def normalize(self):
     for doc, word_dict in self.tf_idf.items():
@@ -64,6 +62,10 @@ def normalize(self):
         for word, tf_idf in word_dict.items():
             self.tf_idf[doc][word] /= denominator
 ~~~
+self.idf es un diccionario que tiene el log10(N/n_t), siendo N el numero total de palabras y n_t, el numero de tweets en las que aparecio.
+\
+Con compute_tf_idf recorremos el dicionario tf_idf ({id_tweet : {word:tf}}) y multiplicamos cuantas veces aparecio por el idf (inverse document frequency) de la palabra.
+Despues con la funcion normalize(), 
 #### Manejo de memoria secundaria
 Blocked sort-Based indexing
 ~~~
@@ -89,31 +91,38 @@ WriteBlockToDisk,block, block_file_name), escribe el array block a un archivo co
 
 MergeBlocks( final_file_name), hace merge de todos los bloques que hay en archivos, cuyos nombres estan en el array blocks. Los archivos ya estan ordenados alfabeticamente, por ello solo les hace merge y lo escribe en final_file_name.
 
-~~~
-    def BSBI_Invert(self, block, file_name):
-        current_word = block[0][0]
-        res = []
-        res.append((current_word, []))
-        for i, x in enumerate(block):
-            word, docId = x
-            self.page_table[docId] = file_name
-            if word == current_word:
-                res[-1][1].append(docId)
-            else:
-                current_word = word
-                res.append((word, [docId]))
-        return res
-~~~
-
-
+La funcion MergeBlocks llama multiples veces la funcion MergeTwoBlocks la cual, como su nombre lo dice, solo mergee 2 blocques, para esto creamos dos arrays, cada uno contiene n elementos, se les mergea en un nuevo file (memoria secundaria) y se vuelve a cargar n elementos para cada array. Con ello podemos manejar grandes cantidades de data.
 
 ### Consultas
-
+~~~
+    def query(self, text, limit):
+        if limit:
+            limit = int(limit)
+        else:
+            limit = 10
+        tokens = text.strip().split()
+        v = { token: 1 / sqrt(len(tokens)) for token in tokens}
+        results = [ (doc, self.cosine_similarity(v, v2)) for doc, v2 in self.tf_idf.items() ]
+        results = sorted(results, key=lambda x: x[1], reverse=True)[:limit]
+        return self.retrieve_results([ id for id, score in results ])
+~~~
 ## Implementacion Frontend
-![](images/ph1.png){ width: 500px; }
 
-![](images/ph2.png){ width: 500px; }
+![](images/ph1.png){:width: 500px;}
 
-![](images/ph3.png){ width: 500px; }
+![](images/ph2.png){:width: 500px;}
 
-![](images/ph4.jpeg){ width: 500px; }
+![](images/ph3.png){:width: 500px;}
+
+![](images/ph4.jpeg){:width: 500px;}
+
+### Make the project
+terminal 1
+~~~
+BD2-P2/src/fronted$ yarn start
+~~~
+terminal 2
+~~~
+BD2-P2$ export FLASK_APP=main.py
+BD2-P2$ flask run
+~~~

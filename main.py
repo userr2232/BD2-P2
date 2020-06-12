@@ -8,9 +8,6 @@ index = Inverted('twitter_tracking/clean')
 app = Flask(__name__)
 CORS(app)
 
-UPLOAD_FOLDER = '/'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
 @app.route('/')
 def query():
     return jsonify(index.query(request.args.get('q'), request.args.get('limit')))
