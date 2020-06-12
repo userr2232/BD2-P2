@@ -109,13 +109,13 @@ La funcion MergeBlocks llama multiples veces la funcion MergeTwoBlocks la cual, 
 ## Implementacion Frontend
 La aplicacion se hizo con flask y react
 
-![](images/ph1.png){ width=0.5}
+![100px](images/ph1.png)
 
-![](images/ph2.png){ width=0.5}
+![0.5](images/ph2.png)
 
-![](images/ph3.png){ width=0.5}
+![0-5](images/ph3.png)
 
-![](images/ph4.jpeg){ width=0.5}
+![0.5](images/ph4.jpeg)
 
 ### Make the project
 terminal 1
